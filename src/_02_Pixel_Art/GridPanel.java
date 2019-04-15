@@ -3,10 +3,11 @@ package _02_Pixel_Art;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import javax.swing.JPanel;
 
-public class GridPanel extends JPanel {
+public class GridPanel extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int windowWidth;
@@ -52,8 +53,8 @@ public class GridPanel extends JPanel {
 	public void clickPixel(int mouseX, int mouseY) {
 		// 5. Use the mouseX and mouseY variables to change the color
 		// of the pixel that was clicked. *HINT* Use the pixel's dimensions.
+		pixelArray[mouseX/pixelWidth][mouseY/pixelHeight].color = color;
 	}
-
 	@Override
 	public void paintComponent(Graphics g) {
 		// 4. Iterate through the array.
@@ -61,7 +62,10 @@ public class GridPanel extends JPanel {
 		// Then, use drawRect to add a grid pattern to your display.
 		for (int i = 0; i < pixelArray.length; i++) {
 			for (int j = 0; j < pixelArray[i].length; j++) {
-
+				g.setColor(pixelArray[i][j].color);
+				g.fillRect(i*pixelWidth, j*pixelHeight, pixelWidth, pixelHeight);
+				g.setColor(Color.BLACK);
+				g.drawRect(i*pixelWidth, j*pixelHeight, pixelWidth, pixelHeight);
 			}
 		}
 	}

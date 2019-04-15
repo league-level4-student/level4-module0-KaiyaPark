@@ -1,12 +1,22 @@
 package _02_Pixel_Art;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,7 +24,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class ColorSelectionPanel extends JPanel implements MouseListener, ChangeListener{
+public class ColorSelectionPanel extends JPanel implements MouseListener, ChangeListener, Serializable, ActionListener{
 	private static final long serialVersionUID = 1L;
 	
 	public static final int MAX_COLOR = 256;
@@ -31,6 +41,7 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 	
 	private JLabel colorLabel;
 	private BufferedImage colorImage;
+	public JButton saveButton = new JButton();
 	
 	public ColorSelectionPanel() {
 		rSlider = new JSlider(JSlider.VERTICAL);
@@ -71,6 +82,9 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 		add(gSlider);
 		add(new JLabel("blue"));
 		add(bSlider);
+		saveButton.setText("Save");
+		saveButton.addActionListener(this);
+		add(saveButton);
 	}
 
 	public Color getSelectedColor() {
@@ -125,4 +139,33 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 		colorLabel.setIcon(new ImageIcon(colorImage));
 		add(colorLabel);
 	}
+
+	public static void save(GridPanel data) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("dataFile")))) {
+			oos.writeObject(data);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static GridPanel load() {
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("dataFile")))) {
+			return (GridPanel) ois.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException e) {
+			// This can occur if the object we read from the file is not
+			// an instance of any recognized class
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

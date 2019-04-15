@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 
-public class PixelArtMaker implements MouseListener{
+public class PixelArtMaker implements MouseListener, {
 	private JFrame window;
 	private GridInputPanel gip;
 	private GridPanel gp;
@@ -19,6 +19,7 @@ public class PixelArtMaker implements MouseListener{
 		window.setResizable(false);
 		
 		window.add(gip);
+		window.add(csp.load());
 		window.pack();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
@@ -49,6 +50,9 @@ public class PixelArtMaker implements MouseListener{
 		System.out.println(csp.getSelectedColor());
 		gp.clickPixel(e.getX(), e.getY());
 		gp.repaint();
+		if(e.getSource().equals(csp.saveButton)) {
+			csp.save(gp);
+		}
 	}
 
 	@Override
