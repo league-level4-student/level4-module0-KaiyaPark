@@ -18,7 +18,7 @@ public class GridPanel extends JPanel implements Serializable {
 	private int cols;
 
 	// 1. Create a 2D array of pixels. Do not initialize it yet.
-	Pixel[][] pixelArray;
+	public Pixel[][] pixelArray;
 	private Color color;
 
 	public GridPanel(int w, int h, int r, int c) {
@@ -53,8 +53,10 @@ public class GridPanel extends JPanel implements Serializable {
 	public void clickPixel(int mouseX, int mouseY) {
 		// 5. Use the mouseX and mouseY variables to change the color
 		// of the pixel that was clicked. *HINT* Use the pixel's dimensions.
-		pixelArray[mouseX/pixelWidth][mouseY/pixelHeight].color = color;
+		System.out.println("help");
+		pixelArray[mouseX / pixelWidth][mouseY / pixelHeight].color = color;
 	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		// 4. Iterate through the array.
@@ -63,9 +65,9 @@ public class GridPanel extends JPanel implements Serializable {
 		for (int i = 0; i < pixelArray.length; i++) {
 			for (int j = 0; j < pixelArray[i].length; j++) {
 				g.setColor(pixelArray[i][j].color);
-				g.fillRect(i*pixelWidth, j*pixelHeight, pixelWidth, pixelHeight);
+				g.fillRect(i * pixelWidth, j * pixelHeight, pixelWidth, pixelHeight);
 				g.setColor(Color.BLACK);
-				g.drawRect(i*pixelWidth, j*pixelHeight, pixelWidth, pixelHeight);
+				g.drawRect(i * pixelWidth, j * pixelHeight, pixelWidth, pixelHeight);
 			}
 		}
 	}
